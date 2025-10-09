@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box{
+            width: 200px;
+            height: 200px;
+            background-color: #888;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 32px;
+            margin-top: 40px;
+        }
+        #button-wrapper{
+            display: flex;
+            padding: 20px;
+            background-color: #888;
+            width: 25%;
+            margin-left: auto;
+            margin-right: auto;
+            justify-content: space-around;
+        }
+
+        .center-div{
+            margin-top: 15%;
+            margin-bottom: auto;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="center-div">
+        <div id="box"></div>
+        <div id="button-wrapper">
+            <button class="btn" id="r_btn">
+                Povećaj R
+            </button>
+
+            <button class="btn" id="g_btn">
+                Povećaj G
+            </button>
+
+            <button class="btn" id="b_btn">
+                Povećaj B
+            </button>
+
+            <button class="btn" id="reset_btn">
+                Resetuj boje
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let box = document.getElementById("box")
+        let r = document.getElementById("r_btn")
+        let g = document.getElementById("g_btn")
+        let b = document.getElementById("b_btn")
+        let reset = document.getElementById("reset_btn")
+        
+        let rVal = 136
+        let gVal = 136
+        let bVal = 136
+        
+        r.addEventListener("click", increase)
+        g.addEventListener("click", increase)
+        b.addEventListener("click", increase)
+        reset.addEventListener("click", resetColors)
+
+        function increase(e){
+            btn = e.target.id
+            if(btn === "r_btn"){
+                rVal += 10
+                if(rVal > 255) rVal = 255;
+
+            }
+            updateBox()
+        }
+
+        function resetColors(){
+            rVal = 0
+            gVal = 0
+            bVal = 0
+
+            updateBox()
+        }
+
+        function updateBox(){
+            box.style.backgroundColor = `rgb(${rVal}, ${gVal}, ${bVal})`;
+        }
+
+
+    </script>
+</body>
+
+</html>
