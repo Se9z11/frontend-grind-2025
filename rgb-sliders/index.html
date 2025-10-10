@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGB Sliders</title>
+    <style>
+        body{
+            background-color: #1B2845;
+        }
+
+        h1{
+            color: white;
+            font-size: 6rem;
+            font-family:fantasy;
+            letter-spacing: 6px;
+            text-align: center;
+        }
+
+        #box{
+            width: 200px;
+            height: 200px;
+            background-color: #000000;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 0.25rem;
+            border: 0.25rem solid;
+            border-color: rgba(255, 255, 255, 0.7);
+            border-width: 3px;
+            margin-bottom: 3rem;
+        }
+        #sliders-wrapper{
+            display: flex;
+            flex-direction: column;
+            padding: 50px;
+            background-color: #274060;
+            width: 25%;
+            margin-left: auto;
+            margin-right: auto;
+            justify-content: space-around;
+            border-radius: 0.5rem;
+        }
+
+        .slider{
+            -webkit-appearance: none;
+            appearance: none;
+            width: 80%;
+            height: 2rem;
+            outline: none;
+            opacity: 75%;
+            border-radius: 1rem;
+            -webkit-transition: 0.5s;
+            transition: opacity 0.6s;
+            background-color: #3571a5;
+
+        }
+
+        .slider:hover{
+            opacity: 1;
+            background-color: #418bcc;
+            -webkit-transition: 0.5s;
+            transition: 0.5s;
+        }
+
+        .slider::-webkit-slider-thumb{
+            -webkit-appearance: none;
+            appearance: none;
+            width: 0.75rem;
+            height: 2rem;
+            background-color: aqua;
+            cursor: pointer;
+        }
+
+        .slider-box{
+            display: flex;
+            padding-top: auto;
+            padding-bottom: auto;
+            margin-bottom: 16px;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .slider_Value{
+            background-color: #a1ccf9;
+            width: 50px;
+            height: 2rem;
+            border-radius: 0.25rem;
+        }
+
+        .btn-wrapper{
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn{
+            width: 12rem;
+            height: 3rem;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #1B2845;
+            font-family: fantasy;
+            font-size: 1.25rem;
+            color: #a1ccf9;
+            border: 2px solid white;
+            cursor: pointer;
+            -webkit-transition: 0.3s;
+            transition: 0.3s;
+        }
+
+        #btn_plus.btn{
+            width: 4rem;
+        }
+
+        #btn_minus.btn{
+            width: 4rem;
+        }
+
+        .btn:hover{
+            opacity: 1;
+            background-color: #a1ccf9;
+            color: #1B2845;
+            -webkit-transition: 0.3s;
+            transition: 0.3s;
+            border: 2px solid white;
+        }
+
+        .slider-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .slider_Value {
+          width: 40px;
+          text-align: center;
+          font-weight: bold;
+        }
+
+
+    </style>
+</head>
+<body>
+    <h1>RGB sliders</h1>
+    <div class="center-div">
+        <div id="box"></div>
+        <div id="sliders-wrapper">
+            <div class="slider-box" id="first_sb">
+                <input type="range" min="1" max="255" value="0" class="slider" id="r">
+                <div class="slider_Value"></div>
+            </div>
+
+            <div class="slider-box" id="second_sb">
+                <input type="range" min="1" max="255" value="0" class="slider" id="g">
+                <div class="slider_Value"></div>
+            </div>
+
+            <div class="slider-box" id="third_sb">
+                <input type="range" min="1" max="255" value="0" class="slider" id="b">
+                <div class="slider_Value"></div>
+            </div>
+
+            <div class="btn-wrapper">
+                <button class="btn" id="btn_plus">
+                    +
+                </button>
+
+                <button class="btn" id="btn_minus">
+                    -
+                </button>
+
+                <button class="btn" id="reset_btn">
+                    Reset Colors
+                </button>
+            </div>
+
+
+        </div>
+
+        
+
+    </div>
+
+    <script>
+        let box = document.getElementById("box")
+        let slider_1 = document.getElementById("r")
+        let slider_2 = document.getElementById("g")    
+        let slider_3 = document.getElementById("b")
+        let reset = document.getElementById("reset_btn")
+        let activeSlider = null
+        let rVal = 0
+        let gVal = 0
+        let bVal = 0
+
+        slider_1.addEventListener("input", updateValues)
+        slider_2.addEventListener("input", updateValues)
+        slider_3.addEventListener("input", updateValues)
+        btn_plus.addEventListener("click", increase)
+        btn_minus.addEventListener("click", decrease)
+        reset_btn.addEventListener("click", resetColors)
+
+
+        function updateValues(e){
+            activeSlider = e.target.id
+            if (activeSlider === "r"){
+                rVal = e.target.value
+            } 
+            if (activeSlider === "g"){
+                gVal = e.target.value
+            } 
+            if (activeSlider === "b"){
+                bVal = e.target.value
+            } 
+
+            e.target.nextElementSibling.textContent = e.target.value
+
+            updateBox()
+            console.log("Selected:", activeSlider, "Value:", e.target.value)
+        }
+
+        function increase(e){
+            if(activeSlider === null){
+                rVal += 10
+                if(rVal > 255) rVal = 255;
+            }
+
+            if(activeSlider === "r"){
+                rVal += 10
+                if(rVal > 255) rVal = 255;
+
+            }
+            if(activeSlider === "g"){
+                gVal += 10
+                if(gVal > 255) gVal = 255;
+
+            }
+            if(activeSlider === "b"){
+                bVal += 10
+                if(bVal > 255) bVal = 255;
+
+            }
+
+            slider_1.value = rVal
+            slider_2.value = gVal
+            slider_3.value = bVal
+
+            e.target.nextElementSibling.textContent = e.target.value
+
+            updateBox()
+        }
+
+        function decrease(e){
+            if(activeSlider === null){
+                rVal -= 10
+                if(rVal < 0) rVal = 0;
+            }
+
+            if(activeSlider === "r"){
+                rVal -= 10
+                if(rVal < 0) rVal = 0;
+
+            }
+            if(activeSlider === "g"){
+                gVal -= 10
+                if(gVal < 0) gVal = 0;
+
+            }
+            if(activeSlider === "b"){
+                bVal -= 10
+                if(bVal < 0) bVal = 0;
+
+            }
+
+            slider_1.value = rVal
+            slider_2.value = gVal
+            slider_3.value = bVal
+
+            updateBox()
+        }
+
+        function resetColors(){
+            rVal = 0
+            gVal = 0
+            bVal = 0
+
+            slider_1.value = 0
+            slider_2.value = 0
+            slider_3.value = 0
+
+            updateBox()
+        }
+
+        function updateBox(){
+            box.style.backgroundColor = `rgb(${rVal}, ${gVal}, ${bVal})`;
+        }
+
+
+    </script>
+</body>
+
+</html>
