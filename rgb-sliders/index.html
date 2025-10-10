@@ -15,6 +15,7 @@
             font-family:fantasy;
             letter-spacing: 6px;
             text-align: center;
+            font-weight: 400;
         }
 
         #box{
@@ -73,8 +74,6 @@
 
         .slider-box{
             display: flex;
-            padding-top: auto;
-            padding-bottom: auto;
             margin-bottom: 16px;
             justify-content: space-around;
             align-items: center;
@@ -88,15 +87,15 @@
         }
 
         .btn-wrapper{
-            width: 100%;
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
         }
 
         .btn{
             width: 12rem;
             height: 3rem;
-            margin-left: auto;
-            margin-right: auto;
             background-color: #1B2845;
             font-family: fantasy;
             font-size: 1.25rem;
@@ -131,31 +130,38 @@
         }
 
         .slider_Value {
-          width: 40px;
-          text-align: center;
-          font-weight: bold;
+        display: flex;
+        width: 40px;
+        justify-content: center;
+        align-items: center;
+        color: #1B2845;
+        font-family: fantasy;
+        line-height: 100%;
+        
         }
 
 
     </style>
 </head>
 <body>
-    <h1>RGB sliders</h1>
+    <h1>RGB Sliders</h1>
     <div class="center-div">
+
         <div id="box"></div>
+
         <div id="sliders-wrapper">
-            <div class="slider-box" id="first_sb">
-                <input type="range" min="1" max="255" value="0" class="slider" id="r">
+            <div class="slider-box">
+                <input type="range" min="0" max="255" value="0" class="slider" id="r">
                 <div class="slider_Value"></div>
             </div>
 
-            <div class="slider-box" id="second_sb">
-                <input type="range" min="1" max="255" value="0" class="slider" id="g">
+            <div class="slider-box">
+                <input type="range" min="0" max="255" value="0" class="slider" id="g">
                 <div class="slider_Value"></div>
             </div>
 
-            <div class="slider-box" id="third_sb">
-                <input type="range" min="1" max="255" value="0" class="slider" id="b">
+            <div class="slider-box">
+                <input type="range" min="0" max="255" value="0" class="slider" id="b">
                 <div class="slider_Value"></div>
             </div>
 
@@ -169,11 +175,9 @@
                 </button>
 
                 <button class="btn" id="reset_btn">
-                    Reset Colors
+                    Reset Color
                 </button>
             </div>
-
-
         </div>
 
         
@@ -181,11 +185,11 @@
     </div>
 
     <script>
-        let box = document.getElementById("box")
-        let slider_1 = document.getElementById("r")
-        let slider_2 = document.getElementById("g")    
-        let slider_3 = document.getElementById("b")
-        let reset = document.getElementById("reset_btn")
+        const box = document.getElementById("box")
+        const slider_1 = document.getElementById("r")
+        const slider_2 = document.getElementById("g")    
+        const slider_3 = document.getElementById("b")
+        const reset_btn = document.getElementById("reset_btn")
         let activeSlider = null
         let rVal = 0
         let gVal = 0
@@ -199,42 +203,51 @@
         reset_btn.addEventListener("click", resetColors)
 
 
+        slider_1.nextElementSibling.textContent = 0;
+        slider_2.nextElementSibling.textContent = 0;
+        slider_3.nextElementSibling.textContent = 0;
+
+        function updateSliderDisplay() {
+            slider_1.nextElementSibling.textContent = rVal;
+            slider_2.nextElementSibling.textContent = gVal;
+            slider_3.nextElementSibling.textContent = bVal;
+        }   
+
+
         function updateValues(e){
             activeSlider = e.target.id
             if (activeSlider === "r"){
-                rVal = e.target.value
+                rVal = parseInt(e.target.value)
             } 
             if (activeSlider === "g"){
-                gVal = e.target.value
+                gVal = parseInt(e.target.value)
             } 
             if (activeSlider === "b"){
-                bVal = e.target.value
+                bVal = parseInt(e.target.value)
             } 
 
-            e.target.nextElementSibling.textContent = e.target.value
-
+            updateSliderDisplay()
             updateBox()
-            console.log("Selected:", activeSlider, "Value:", e.target.value)
         }
 
         function increase(e){
             if(activeSlider === null){
-                rVal += 10
+                rVal += 1
                 if(rVal > 255) rVal = 255;
             }
 
             if(activeSlider === "r"){
-                rVal += 10
+                rVal += 1
                 if(rVal > 255) rVal = 255;
 
             }
             if(activeSlider === "g"){
-                gVal += 10
+                gVal += 1
                 if(gVal > 255) gVal = 255;
 
             }
             if(activeSlider === "b"){
-                bVal += 10
+                bVal += 1
                 if(bVal > 255) bVal = 255;
 
             }
@@ -243,29 +256,28 @@
             slider_2.value = gVal
             slider_3.value = bVal
 
-            e.target.nextElementSibling.textContent = e.target.value
-
+            updateSliderDisplay()
             updateBox()
         }
 
         function decrease(e){
             if(activeSlider === null){
-                rVal -= 10
+                rVal -= 1
                 if(rVal < 0) rVal = 0;
             }
 
             if(activeSlider === "r"){
-                rVal -= 10
+                rVal -= 1
                 if(rVal < 0) rVal = 0;
 
             }
             if(activeSlider === "g"){
-                gVal -= 10
+                gVal -= 1
                 if(gVal < 0) gVal = 0;
 
             }
             if(activeSlider === "b"){
-                bVal -= 10
+                bVal -= 1
                 if(bVal < 0) bVal = 0;
 
             }
@@ -274,6 +286,7 @@
             slider_2.value = gVal
             slider_3.value = bVal
 
+            updateSliderDisplay()
             updateBox()
         }
 
@@ -286,6 +299,11 @@
             slider_2.value = 0
             slider_3.value = 0
 
+
+            slider_1.nextElementSibling.textContent = 0;
+            slider_2.nextElementSibling.textContent = 0;
+            slider_3.nextElementSibling.textContent = 0;
+            
             updateBox()
         }
 
