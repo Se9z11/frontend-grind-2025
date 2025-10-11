@@ -22,15 +22,13 @@
             width: 200px;
             height: 200px;
             background-color: #000000;
-            margin-left: auto;
-            margin-right: auto;
             border-radius: 0.25rem;
             border: 0.25rem solid;
             border-color: rgba(255, 255, 255, 0.7);
             border-width: 3px;
             margin-bottom: 3rem;
         }
-        #sliders-wrapper{
+        #main-wrapper{
             display: flex;
             flex-direction: column;
             padding: 50px;
@@ -86,6 +84,12 @@
             border-radius: 0.25rem;
         }
 
+        .slider-label{
+            font-family: fantasy;
+            color: #a1ccf9;
+            font-size: 1.5em;
+        }
+
         .btn-wrapper{
             display: flex;
             justify-content: center;
@@ -137,30 +141,100 @@
         color: #1B2845;
         font-family: fantasy;
         line-height: 100%;
-        
+        font-weight: 100;
         }
 
+        .code-wrapper{
+            display: flex;  
+            flex-direction: column;
+            align-items: center;
+                   
+        }
+
+        .code-output{
+            display: flex;
+            background-color: #3571a5;
+            width: 9rem;
+            height: 2rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem;
+            border-radius: 1rem;
+            justify-content: center;
+            align-items: center;
+            color: aqua;
+            font-family: fantasy;
+            line-height: 100%;
+        }
+
+        .btn#copy-btn{
+            width: 6rem;
+            height: 2rem;
+            background-color: #1B2845;
+            font-family: fantasy;
+            font-size: 1rem;
+            color: #a1ccf9;
+            cursor: pointer;
+            -webkit-transition: 0.3s;
+            transition: 0.3s;
+            margin-bottom: 2rem;
+            border-radius: 0.5rem;
+            
+        }
+
+        .btn#copy-btn:hover{
+            opacity: 1;
+            background-color: #a1ccf9;
+            color: #1B2845;
+            -webkit-transition: 0.3s;
+            transition: 0.3s;
+            border: 2px solid white;
+        }
+
+        .color-code-wrapper{
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            justify-content: center;
+        }
 
     </style>
 </head>
 <body>
     <h1>RGB Sliders</h1>
     <div class="center-div">
+        
 
-        <div id="box"></div>
+        <div id="main-wrapper">
 
-        <div id="sliders-wrapper">
+            <div class="color-code-wrapper">
+                <div class="code-wrapper">
+                    <div class="code-output" id="hex-code"></div>
+                    <button class="btn" id="copy-btn" data-type="hex">
+                        Copy Hex
+                    </button>
+                    <div class="code-output" id="rgb-code" data-type="rgb"></div>
+                    <button class="btn" id="copy-btn">
+                        Copy RGB
+                    </button>
+                </div>
+                <div id="box"></div>
+            </div>
+
+
             <div class="slider-box">
+                <label class="slider-label" for="red-slider">R</label>
                 <input type="range" min="0" max="255" value="0" class="slider" id="r">
                 <div class="slider_Value"></div>
             </div>
 
             <div class="slider-box">
+                <label class="slider-label" for="green-slider">G</label>
                 <input type="range" min="0" max="255" value="0" class="slider" id="g">
                 <div class="slider_Value"></div>
             </div>
 
             <div class="slider-box">
+                <label class="slider-label" for="blue-slider">B</label>
                 <input type="range" min="0" max="255" value="0" class="slider" id="b">
                 <div class="slider_Value"></div>
             </div>
@@ -185,27 +259,58 @@
     </div>
 
     <script>
-        const box = document.getElementById("box")
-        const slider_1 = document.getElementById("r")
-        const slider_2 = document.getElementById("g")    
-        const slider_3 = document.getElementById("b")
-        const reset_btn = document.getElementById("reset_btn")
-        let activeSlider = null
-        let rVal = 0
-        let gVal = 0
-        let bVal = 0
+        const box = document.getElementById("box");
+        const slider_1 = document.getElementById("r");
+        const slider_2 = document.getElementById("g");    
+        const slider_3 = document.getElementById("b");
+        const reset_btn = document.getElementById("reset_btn");
+        const hexCode = document.getElementById("hex-code");
+        const rgbCode = document.getElementById("rgb-code");
+        let activeSlider = null;
+        let rVal = 0;
+        let gVal = 0;
+        let bVal = 0;
 
-        slider_1.addEventListener("input", updateValues)
-        slider_2.addEventListener("input", updateValues)
-        slider_3.addEventListener("input", updateValues)
-        btn_plus.addEventListener("click", increase)
-        btn_minus.addEventListener("click", decrease)
-        reset_btn.addEventListener("click", resetColors)
-
-
+        slider_1.addEventListener("input", updateValues);
+        slider_2.addEventListener("input", updateValues);
+        slider_3.addEventListener("input", updateValues);
+        btn_plus.addEventListener("click", increase);
+        btn_minus.addEventListener("click", decrease);
+        reset_btn.addEventListener("click", resetColors);
         slider_1.nextElementSibling.textContent = 0;
         slider_2.nextElementSibling.textContent = 0;
         slider_3.nextElementSibling.textContent = 0;
+
+
+
+        async function copytoClipboard() {
+            // currently placeholder — will add logic next session
+        }
+
+
+        createRGB()
+        function createRGB(){
+            const R = rVal;
+            const G = gVal;
+            const B = bVal;
+            let rgbV = `rgb(${R}, ${G}, ${B})`;
+            rgbCode.textContent = rgbV;
+
+        }
+
+        createHex()
+        function createHex(){
+            const hexR = rVal.toString(16).padStart(2, '0');
+            const hexG = gVal.toString(16).padStart(2, '0');
+            const hexB = bVal.toString(16).padStart(2, '0');
+
+            const finallHex = `#${hexR}${hexG}${hexB}`.toUpperCase();
+            hexCode.textContent = finallHex;
+
+            return finallHex;
+        }
+
+         
 
         function updateSliderDisplay() {
             slider_1.nextElementSibling.textContent = rVal;
@@ -226,6 +331,8 @@
                 bVal = parseInt(e.target.value)
             } 
 
+            createRGB()
+            createHex()
             updateSliderDisplay()
             updateBox()
         }
@@ -256,6 +363,8 @@
             slider_2.value = gVal
             slider_3.value = bVal
 
+            createRGB()
+            createHex()
             updateSliderDisplay()
             updateBox()
         }
@@ -286,6 +395,8 @@
             slider_2.value = gVal
             slider_3.value = bVal
 
+            createRGB()
+            createHex()
             updateSliderDisplay()
             updateBox()
         }
@@ -304,6 +415,8 @@
             slider_2.nextElementSibling.textContent = 0;
             slider_3.nextElementSibling.textContent = 0;
             
+            createRGB()
+            createHex()
             updateBox()
         }
 
