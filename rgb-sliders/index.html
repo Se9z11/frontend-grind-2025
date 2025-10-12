@@ -166,7 +166,7 @@
             line-height: 100%;
         }
 
-        .btn#copy-btn{
+        .btn#copy-btn-rgb, .btn#copy-btn-hex{
             width: 6rem;
             height: 2rem;
             background-color: #1B2845;
@@ -209,11 +209,11 @@
             <div class="color-code-wrapper">
                 <div class="code-wrapper">
                     <div class="code-output" id="hex-code"></div>
-                    <button class="btn" id="copy-btn" data-type="hex">
+                    <button class="btn" id="copy-btn-hex" data-type="hex">
                         Copy Hex
                     </button>
                     <div class="code-output" id="rgb-code" data-type="rgb"></div>
-                    <button class="btn" id="copy-btn">
+                    <button class="btn" id="copy-btn-rgb">
                         Copy RGB
                     </button>
                 </div>
@@ -266,6 +266,8 @@
         const reset_btn = document.getElementById("reset_btn");
         const hexCode = document.getElementById("hex-code");
         const rgbCode = document.getElementById("rgb-code");
+        const copybtnRGB = document.querySelector("#copy-btn-rgb")
+        const copybtnHEX = document.querySelector("#copy-btn-hex")
         let activeSlider = null;
         let rVal = 0;
         let gVal = 0;
@@ -277,14 +279,26 @@
         btn_plus.addEventListener("click", increase);
         btn_minus.addEventListener("click", decrease);
         reset_btn.addEventListener("click", resetColors);
+        copybtnHEX.addEventListener("click", () => copytoClipboard(hexCode, copybtnHEX));
+        copybtnRGB.addEventListener("click", () => copytoClipboard(rgbCode, copybtnRGB));
+        
+        
         slider_1.nextElementSibling.textContent = 0;
         slider_2.nextElementSibling.textContent = 0;
         slider_3.nextElementSibling.textContent = 0;
 
 
 
-        async function copytoClipboard() {
-            // currently placeholder — will add logic next session
+        async function copytoClipboard(text, btn) {
+            try{
+                await navigator.clipboard.writeText(text.textContent);
+                btn.textContent = "Copied";
+                setTimeout(() => btn.textContent = "Copy", 1500);
+            }
+            catch (err){
+                console.error("Failed to copy", err);
+                btn.textContent = "Error";
+            }
         }
 
 
