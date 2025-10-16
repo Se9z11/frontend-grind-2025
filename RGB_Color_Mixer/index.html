@@ -282,12 +282,15 @@
         copybtnHEX.addEventListener("click", () => copytoClipboard(hexCode, copybtnHEX));
         copybtnRGB.addEventListener("click", () => copytoClipboard(rgbCode, copybtnRGB));
         
-        
         slider_1.nextElementSibling.textContent = 0;
         slider_2.nextElementSibling.textContent = 0;
         slider_3.nextElementSibling.textContent = 0;
 
 
+
+        function changeValueOnHold() {
+            // logic to be implemented
+        }          
 
         async function copytoClipboard(text, btn) {
             try{

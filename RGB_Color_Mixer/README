@@ -1,0 +1,40 @@
+## RGB Color Mixer
+
+Interactive RGB color controller built with HTML, CSS, and JavaScript.
+Users can mix Red, Green, and Blue channels, view the live color preview, and copy RGB or HEX codes.
+
+## Current Features
+🎚️ Adjust Red, Green, and Blue channels individually
+🎨 Live color preview updates in real time
+🔄 Reset all values to default (0, 0, 0)
+➕➖ Increment / Decrement color values using buttons
+📋 Copy to clipboard functionality for RGB and HEX codes
+
+## Upcoming Features
+🖱️ Hold-to-Increment — hold the plus/minus button to change values continuously
+💾 Add to Palette — save selected colors to a custom color palette
+🕒 Color History — automatically track recently used colors
+🎨 Integrated Color Picker — select colors visually from a gradient field
+🌈 HSL Code Display — show color in HSL format alongside RGB and HEX
+📱 Responsive Design — optimize layout for mobile and tablet screens
+
+## Technical Goals
+Use clean modular JavaScript (no frameworks)
+Keep functions reusable and maintainable
+Apply DRY (Don’t Repeat Yourself) principle in code refactoring
+Store data (palette + history) using localStorage
+
+## Project Roadmap
+Milestone	Description	Status
+Base RGB controls	Sliders + buttons + color preview	✅ Done
+Copy-to-clipboard	Async clipboard API for RGB/HEX	✅ Done
+Hold-to-increment	Continuous value change on hold	🔜 Next
+Palette feature	Add favorite colors section	⏳ Planned
+Color history	Auto-track recent colors	⏳ Planned
+Responsive layout	Mobile-friendly interface	⏳ Planned
+
+## Progress Log
+✅ Added RGB & HEX display
+✅ Implemented copy-to-clipboard functionality
+🔜 Next: Add hold-to-increment functionality for smoother control
+🎯 Goal: Complete palette and color history by Sunday
