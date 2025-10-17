@@ -272,15 +272,31 @@
         let rVal = 0;
         let gVal = 0;
         let bVal = 0;
+        let holdIntervalPlus;
+        let holdIntervalMinus;
 
         slider_1.addEventListener("input", updateValues);
         slider_2.addEventListener("input", updateValues);
         slider_3.addEventListener("input", updateValues);
-        btn_plus.addEventListener("click", increase);
-        btn_minus.addEventListener("click", decrease);
         reset_btn.addEventListener("click", resetColors);
         copybtnHEX.addEventListener("click", () => copytoClipboard(hexCode, copybtnHEX));
         copybtnRGB.addEventListener("click", () => copytoClipboard(rgbCode, copybtnRGB));
+
+        btn_plus.addEventListener("mousedown", () => {
+        changeValues("up"); 
+        holdIntervalPlus = setInterval(() => changeValues("up"), 100);
+        });
+        
+        btn_minus.addEventListener("mousedown", () => {
+            changeValues("down"); 
+            holdIntervalMinus = setInterval(() => changeValues("down"), 100);
+        });
+        
+        ["mouseup", "mouseleave"].forEach(eventType => {
+            btn_plus.addEventListener(eventType, () => clearInterval(holdIntervalPlus));
+            btn_minus.addEventListener(eventType, () => clearInterval(holdIntervalMinus));
+        });
+        
         
         slider_1.nextElementSibling.textContent = 0;
         slider_2.nextElementSibling.textContent = 0;
@@ -288,9 +304,37 @@
 
 
 
-        function changeValueOnHold() {
-            // logic to be implemented
-        }          
+        function changeValues(state) {
+            const adjustment = 1
+
+            if(activeSlider == "r"){
+                rVal += state === "up" ? adjustment : -adjustment;
+                if(rVal>255){rVal=255};
+                if(rVal<0){rVal=0};
+            };
+
+            if(activeSlider == "g"){
+                gVal += state === "up" ? adjustment : -adjustment;
+                if(gVal>255){gVal=255};
+                if(gVal<0){gVal=0};
+            }
+
+            if(activeSlider == "b"){
+                bVal += state === "up" ? adjustment : -adjustment;
+                if(bVal>255){bVal=255};
+                if(bVal<0){bVal=0};
+            }
+
+                slider_1.value = rVal
+                slider_2.value = gVal
+                slider_3.value = bVal
+
+                createRGB()
+                createHex()
+                updateSliderDisplay()
+                updateBox()
+         
+        }  
 
         async function copytoClipboard(text, btn) {
             try{
@@ -347,70 +391,6 @@
             if (activeSlider === "b"){
                 bVal = parseInt(e.target.value)
             } 
-
-            createRGB()
-            createHex()
-            updateSliderDisplay()
-            updateBox()
-        }
-
-        function increase(e){
-            if(activeSlider === null){
-                rVal += 1
-                if(rVal > 255) rVal = 255;
-            }
-
-            if(activeSlider === "r"){
-                rVal += 1
-                if(rVal > 255) rVal = 255;
-
-            }
-            if(activeSlider === "g"){
-                gVal += 1
-                if(gVal > 255) gVal = 255;
-
-            }
-            if(activeSlider === "b"){
-                bVal += 1
-                if(bVal > 255) bVal = 255;
-
-            }
-
-            slider_1.value = rVal
-            slider_2.value = gVal
-            slider_3.value = bVal
-
-            createRGB()
-            createHex()
-            updateSliderDisplay()
-            updateBox()
-        }
-
-        function decrease(e){
-            if(activeSlider === null){
-                rVal -= 1
-                if(rVal < 0) rVal = 0;
-            }
-
-            if(activeSlider === "r"){
-                rVal -= 1
-                if(rVal < 0) rVal = 0;
-
-            }
-            if(activeSlider === "g"){
-                gVal -= 1
-                if(gVal < 0) gVal = 0;
-
-            }
-            if(activeSlider === "b"){
-                bVal -= 1
-                if(bVal < 0) bVal = 0;
-
-            }
-
-            slider_1.value = rVal
-            slider_2.value = gVal
-            slider_3.value = bVal
 
             createRGB()
             createHex()
