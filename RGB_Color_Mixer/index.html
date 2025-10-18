@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RGB Sliders</title>
+    <title>RGB Color Mixer</title>
     <style>
         body{
             background-color: #1B2845;
@@ -30,14 +30,16 @@
         }
         #main-wrapper{
             display: flex;
-            flex-direction: column;
-            padding: 50px;
+            justify-content:center;
+            align-items: flex-start;
+            gap: 10rem;
+            padding: 4rem;
             background-color: #274060;
-            width: 25%;
-            margin-left: auto;
-            margin-right: auto;
-            justify-content: space-around;
+            width: auto;
             border-radius: 0.5rem;
+            box-sizing: border-box;
+            width: fit-content;
+            margin: 0 auto;
         }
 
         .slider{
@@ -108,6 +110,7 @@
             cursor: pointer;
             -webkit-transition: 0.3s;
             transition: 0.3s;
+            font-weight: 100;
         }
 
         #btn_plus.btn{
@@ -197,63 +200,148 @@
             justify-content: center;
         }
 
+        .favColorWrapper{
+            position: relative;
+            border: 3px solid white;
+            width: 20rem;
+            height: 20rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            gap: 8px;
+        }
+
+        #favorite-list{
+            max-height: 100%;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding-right: 20px;
+        }
+
+        #fav-slider{
+            position: absolute;
+            top: 10px;
+            right: 0px;
+            height: 90%;
+            z-index: 10;
+            writing-mode: vertical-rl;
+        }
+
+        .colorItem{
+            display: flex;
+            flex-direction: row;
+            align-items: start;
+            margin-bottom: 1rem;
+            margin-left: 1rem;
+            margin-top: 1rem;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .colorBox{
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            border: 1px solid white;
+        }
+
+        .hexLabel{
+            font-size: 1rem;
+            margin-top: 4px;
+            color: #a1ccf9;
+            font-family: fantasy;
+        }
+
+        h3{
+            font-family: fantasy;
+            font-size: 2rem;
+            color: white;
+            letter-spacing: 2px;
+            font-weight: 100;
+            margin: 0.5rem;
+        }
+
+        .btn#add-Color-Btn{
+            margin-top: 30px;
+        }
+        
+
     </style>
 </head>
 <body>
-    <h1>RGB Sliders</h1>
+    <h1>RGB Color Mixer</h1>
     <div class="center-div">
+        
         
 
         <div id="main-wrapper">
-
-            <div class="color-code-wrapper">
-                <div class="code-wrapper">
-                    <div class="code-output" id="hex-code"></div>
-                    <button class="btn" id="copy-btn-hex" data-type="hex">
-                        Copy Hex
-                    </button>
-                    <div class="code-output" id="rgb-code" data-type="rgb"></div>
-                    <button class="btn" id="copy-btn-rgb">
-                        Copy RGB
-                    </button>
+            <div class="outsideElementsFavorite">
+                <h3>Favorite Colors</h3>
+                <div class="favColorWrapper">
+                    <div id="favorite-list" class="scroll-container">
+                    </div>
                 </div>
-                <div id="box"></div>
+                <Button class="btn" id="add-Color-Btn">Add Color</Button>
+                
             </div>
+            
 
+                <div class="central-div">
+                    <div class="color-code-wrapper">
+                        <div class="code-wrapper">
+                            <div class="code-output" id="hex-code"></div>
+                            <button class="btn" id="copy-btn-hex" data-type="hex">
+                                Copy Hex
+                            </button>
+                            <div class="code-output" id="rgb-code" data-type="rgb"></div>
+                            <button class="btn" id="copy-btn-rgb">
+                                Copy RGB
+                            </button>
+                        </div>
+                    <div id="box"></div>
+                </div>
 
-            <div class="slider-box">
-                <label class="slider-label" for="red-slider">R</label>
-                <input type="range" min="0" max="255" value="0" class="slider" id="r">
-                <div class="slider_Value"></div>
-            </div>
+                <div class="sliders-wrapper">
+                        <div class="slider-box">
+                        <label class="slider-label" for="red-slider">R</label>
+                        <input type="range" min="0" max="255" value="0" class="slider" id="r">
+                        <div class="slider_Value"></div>
+                    </div>
 
-            <div class="slider-box">
-                <label class="slider-label" for="green-slider">G</label>
-                <input type="range" min="0" max="255" value="0" class="slider" id="g">
-                <div class="slider_Value"></div>
-            </div>
+                    <div class="slider-box">
+                        <label class="slider-label" for="green-slider">G</label>
+                        <input type="range" min="0" max="255" value="0" class="slider" id="g">
+                        <div class="slider_Value"></div>
+                    </div>
 
-            <div class="slider-box">
-                <label class="slider-label" for="blue-slider">B</label>
-                <input type="range" min="0" max="255" value="0" class="slider" id="b">
-                <div class="slider_Value"></div>
-            </div>
+                    <div class="slider-box">
+                        <label class="slider-label" for="blue-slider">B</label>
+                        <input type="range" min="0" max="255" value="0" class="slider" id="b">
+                        <div class="slider_Value"></div>
+                    </div>
 
-            <div class="btn-wrapper">
-                <button class="btn" id="btn_plus">
-                    +
-                </button>
+                    <div class="btn-wrapper">
+                        <button class="btn" id="btn_plus">
+                            +
+                        </button>
 
-                <button class="btn" id="btn_minus">
-                    -
-                </button>
+                        <button class="btn" id="btn_minus">
+                            -
+                        </button>
 
-                <button class="btn" id="reset_btn">
-                    Reset Color
-                </button>
+                        <button class="btn" id="reset_btn">
+                            Reset Color
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
+
+           
         
 
     </div>
@@ -268,12 +356,19 @@
         const rgbCode = document.getElementById("rgb-code");
         const copybtnRGB = document.querySelector("#copy-btn-rgb")
         const copybtnHEX = document.querySelector("#copy-btn-hex")
+        const addColorBtn = document.getElementById("add-Color-Btn")
         let activeSlider = null;
         let rVal = 0;
         let gVal = 0;
         let bVal = 0;
         let holdIntervalPlus;
         let holdIntervalMinus;
+        let favoriteHex = createHex() 
+        const favList = document.getElementById("favorite-list")
+        const favSlider = document.getElementById("fav-slider");
+        let favoriteColors = []
+        
+
 
         slider_1.addEventListener("input", updateValues);
         slider_2.addEventListener("input", updateValues);
@@ -281,6 +376,11 @@
         reset_btn.addEventListener("click", resetColors);
         copybtnHEX.addEventListener("click", () => copytoClipboard(hexCode, copybtnHEX));
         copybtnRGB.addEventListener("click", () => copytoClipboard(rgbCode, copybtnRGB));
+        addColorBtn.addEventListener("click", () => addFavorite(favoriteHex))
+
+        favSlider.addEventListener("input", ()=>{
+            favList.scrollTop = favSlider.value;
+        });
 
         btn_plus.addEventListener("mousedown", () => {
         changeValues("up"); 
@@ -302,6 +402,22 @@
         slider_2.nextElementSibling.textContent = 0;
         slider_3.nextElementSibling.textContent = 0;
 
+        function addFavorite(hex){
+            const favoriteHex = createHex()
+            favoriteColors.push(favoriteHex);
+            renderFavorites();
+        };
+
+        function renderFavorites(){
+            favList.innerHTML = "";
+            for(i=0; i<favoriteColors.length; i++){
+                favList.innerHTML += `
+                <div class="colorItem">
+                    <div class="colorBox" style="background:${favoriteColors[i]}"></div>
+                    <div class="hexLabel">${favoriteColors[i]}</div>
+                </div>`
+            }
+        };
 
 
         function changeValues(state) {
@@ -334,7 +450,7 @@
                 updateSliderDisplay()
                 updateBox()
          
-        }  
+        };
 
         async function copytoClipboard(text, btn) {
             try{
@@ -346,7 +462,7 @@
                 console.error("Failed to copy", err);
                 btn.textContent = "Error";
             }
-        }
+        };
 
 
         createRGB()
@@ -357,7 +473,7 @@
             let rgbV = `rgb(${R}, ${G}, ${B})`;
             rgbCode.textContent = rgbV;
 
-        }
+        };
 
         createHex()
         function createHex(){
@@ -369,7 +485,7 @@
             hexCode.textContent = finallHex;
 
             return finallHex;
-        }
+        };
 
          
 
@@ -377,7 +493,7 @@
             slider_1.nextElementSibling.textContent = rVal;
             slider_2.nextElementSibling.textContent = gVal;
             slider_3.nextElementSibling.textContent = bVal;
-        }   
+        };
 
 
         function updateValues(e){
@@ -396,7 +512,7 @@
             createHex()
             updateSliderDisplay()
             updateBox()
-        }
+        };
 
         function resetColors(){
             rVal = 0
@@ -415,11 +531,11 @@
             createRGB()
             createHex()
             updateBox()
-        }
+        };
 
         function updateBox(){
             box.style.backgroundColor = `rgb(${rVal}, ${gVal}, ${bVal})`;
-        }
+        };
 
 
     </script>
