@@ -221,13 +221,13 @@
             padding-right: 20px;
         }
 
-        #fav-slider{
-            position: absolute;
-            top: 10px;
-            right: 0px;
-            height: 90%;
-            z-index: 10;
-            writing-mode: vertical-rl;
+        #recent-list{
+            max-height: 100%;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding-right: 20px;
         }
 
         .colorItem{
@@ -268,6 +268,21 @@
             margin-top: 30px;
         }
         
+        .colorActions {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 4px;
+          gap: 1 rem;
+          margin-left: 1rem;
+        }
+        .colorActions button {
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-size: 16px;
+        }
+
+
 
     </style>
 </head>
@@ -283,9 +298,15 @@
                 <div class="favColorWrapper">
                     <div id="favorite-list" class="scroll-container">
                     </div>
+                </div>   
+            </div>
+
+            <div class="outsideElementsFavorite">
+                <h3>Recent Colors</h3>
+                <div class="favColorWrapper">
+                    <div id="recent-list" class="scroll-container">
+                    </div>
                 </div>
-                <Button class="btn" id="add-Color-Btn">Add Color</Button>
-                
             </div>
             
 
@@ -347,6 +368,10 @@
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            renderLists();
+        });
+
         const box = document.getElementById("box");
         const slider_1 = document.getElementById("r");
         const slider_2 = document.getElementById("g");    
@@ -356,17 +381,16 @@
         const rgbCode = document.getElementById("rgb-code");
         const copybtnRGB = document.querySelector("#copy-btn-rgb")
         const copybtnHEX = document.querySelector("#copy-btn-hex")
-        const addColorBtn = document.getElementById("add-Color-Btn")
         let activeSlider = null;
         let rVal = 0;
         let gVal = 0;
         let bVal = 0;
         let holdIntervalPlus;
         let holdIntervalMinus;
-        let favoriteHex = createHex() 
         const favList = document.getElementById("favorite-list")
         const favSlider = document.getElementById("fav-slider");
         let favoriteColors = []
+        let recentColors = []
         
 
 
@@ -376,11 +400,6 @@
         reset_btn.addEventListener("click", resetColors);
         copybtnHEX.addEventListener("click", () => copytoClipboard(hexCode, copybtnHEX));
         copybtnRGB.addEventListener("click", () => copytoClipboard(rgbCode, copybtnRGB));
-        addColorBtn.addEventListener("click", () => addFavorite(favoriteHex))
-
-        favSlider.addEventListener("input", ()=>{
-            favList.scrollTop = favSlider.value;
-        });
 
         btn_plus.addEventListener("mousedown", () => {
         changeValues("up"); 
@@ -402,22 +421,97 @@
         slider_2.nextElementSibling.textContent = 0;
         slider_3.nextElementSibling.textContent = 0;
 
-        function addFavorite(hex){
-            const favoriteHex = createHex()
-            favoriteColors.push(favoriteHex);
-            renderFavorites();
+
+        function attachButtonListeners(){
+            document.querySelectorAll(".addFavBtn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const color = btn.dataset.color;
+                    if (!favoriteColors.includes(color)) {
+                        favoriteColors.push(color);
+                        saveToLocalStorage();
+                        renderLists();
+                 }
+             });
+         });
+
+            document.querySelectorAll(".removeBtn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const color = btn.dataset.color;
+                    recentColors = recentColors.filter(c => c !== color);
+                    favoriteColors = favoriteColors.filter(c => c !== color);
+                    saveToLocalStorage();
+                    renderLists();
+                 });
+             });
+        }
+
+        function saveToLocalStorage(){
+            localStorage.setItem("favoriteColors", JSON.stringify(favoriteColors))
+            localStorage.setItem("recentColors", JSON.stringify(recentColors))
         };
 
-        function renderFavorites(){
-            favList.innerHTML = "";
-            for(i=0; i<favoriteColors.length; i++){
-                favList.innerHTML += `
-                <div class="colorItem">
-                    <div class="colorBox" style="background:${favoriteColors[i]}"></div>
-                    <div class="hexLabel">${favoriteColors[i]}</div>
-                </div>`
-            }
+        function loadFromLocalStorage(){
+            favoriteColors = JSON.parse(localStorage.getItem("favoriteColors")) || [];
+            recentColors = JSON.parse(localStorage.getItem("recentColors")) || [];
         };
+
+        loadFromLocalStorage()
+
+
+
+        function addFavorite(){
+            const currentHex = createHex()
+            favoriteColors.push(currentHex);
+            renderFavorites();
+            saveFavoritesToLocalStorage()
+        };
+
+        function recentColorfunc(){
+            setInterval(() =>{
+            const currentHex = createHex()
+            if(!recentColors.includes(currentHex)){
+                recentColors.unshift(currentHex);
+                if(recentColors.length>10) recentColors.pop();
+                saveToLocalStorage();
+                renderLists();
+                 }
+            }, 2000);
+    }
+        function renderLists() {
+            const recentList = document.getElementById("recent-list");
+            const favList = document.getElementById("favorite-list");
+
+            recentList.innerHTML = "";
+            recentColors.forEach(color => {
+                const colorItem = document.createElement("div");
+                colorItem.className = "colorItem";
+                colorItem.innerHTML = `
+                    <div class="colorBox" style="background:${color}"></div>
+                    <div class="hexLabel">${color}</div>
+                    <div class="colorActions">
+                        <button class="addFavBtn" data-color="${color}">❤️</button>
+                        <button class="removeBtn" data-color="${color}">❌</button>
+                    </div>
+                `;
+                recentList.appendChild(colorItem);
+            });
+        
+            favList.innerHTML = "";
+            favoriteColors.forEach(color => {
+                const colorItem = document.createElement("div");
+                colorItem.className = "colorItem";
+                colorItem.innerHTML = `
+                    <div class="colorBox" style="background:${color}"></div>
+                    <div class="hexLabel">${color}</div>
+                    <div class="colorActions">
+                        <button class="removeBtn" data-color="${color}">❌</button>
+                    </div>
+                `;
+                favList.appendChild(colorItem);
+            });
+        
+            attachButtonListeners();
+}       
 
 
         function changeValues(state) {
@@ -536,7 +630,13 @@
         function updateBox(){
             box.style.backgroundColor = `rgb(${rVal}, ${gVal}, ${bVal})`;
         };
+        renderLists();
 
+        document.addEventListener("DOMContentLoaded", () => {
+            loadFromLocalStorage();
+            renderLists();
+            recentColorfunc();
+        });
 
     </script>
 </body>
