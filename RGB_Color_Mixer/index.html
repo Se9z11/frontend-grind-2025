@@ -437,8 +437,12 @@
             document.querySelectorAll(".removeBtn").forEach(btn => {
                 btn.addEventListener("click", () => {
                     const color = btn.dataset.color;
-                    recentColors = recentColors.filter(c => c !== color);
-                    favoriteColors = favoriteColors.filter(c => c !== color);
+                    if(btn.closest("#recent-list")){
+                        recentColors = recentColors.filter(c => c !== color);
+                    }
+                    else{
+                        favoriteColors = favoriteColors.filter(c => c !== color)
+                    }
                     saveToLocalStorage();
                     renderLists();
                  });
