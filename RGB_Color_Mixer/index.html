@@ -475,15 +475,6 @@
 
         loadFromLocalStorage()
 
-
-        //Remove this unused function
-        function addFavorite(){
-            const currentHex = createHex()
-            favoriteColors.push(currentHex);
-            renderFavorites();
-            saveFavoritesToLocalStorage()
-        };
-
         //Adding the last color after waiting 3s
         function recentColorfunc(){
             setInterval(() =>{
@@ -494,7 +485,7 @@
                 saveToLocalStorage();
                 renderLists();
                  }
-            }, 2000);//change to 3s
+            }, 3000);
     }
 
         //Rendering color with buttons in recent and favorite box
@@ -657,14 +648,6 @@
             box.style.backgroundColor = `rgb(${rVal}, ${gVal}, ${bVal})`;
         };
         renderLists();
-
-
-        //Remove this part
-        document.addEventListener("DOMContentLoaded", () => {
-            loadFromLocalStorage();
-            renderLists();
-            recentColorfunc();
-        });
 
     </script>
 </body>
