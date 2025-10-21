@@ -368,10 +368,12 @@
     </div>
 
     <script>
+        // Waits for the page to fully load before rendering lists
         document.addEventListener("DOMContentLoaded", () => {
             renderLists();
         });
 
+        // --- ELEMENT SELECTION ---
         const box = document.getElementById("box");
         const slider_1 = document.getElementById("r");
         const slider_2 = document.getElementById("g");    
@@ -381,36 +383,46 @@
         const rgbCode = document.getElementById("rgb-code");
         const copybtnRGB = document.querySelector("#copy-btn-rgb")
         const copybtnHEX = document.querySelector("#copy-btn-hex")
+        const favList = document.getElementById("favorite-list")
+        const favSlider = document.getElementById("fav-slider");
+        
+        // --- GLOBAL VARIABLES ---
         let activeSlider = null;
         let rVal = 0;
         let gVal = 0;
         let bVal = 0;
         let holdIntervalPlus;
         let holdIntervalMinus;
-        const favList = document.getElementById("favorite-list")
-        const favSlider = document.getElementById("fav-slider");
         let favoriteColors = []
         let recentColors = []
         
 
-
+        //Slider input listeners
         slider_1.addEventListener("input", updateValues);
         slider_2.addEventListener("input", updateValues);
         slider_3.addEventListener("input", updateValues);
+
+        //Reset button event
         reset_btn.addEventListener("click", resetColors);
+
+        //Copy buttons for RGB and HEX
         copybtnHEX.addEventListener("click", () => copytoClipboard(hexCode, copybtnHEX));
         copybtnRGB.addEventListener("click", () => copytoClipboard(rgbCode, copybtnRGB));
 
+
+        //Increment value button listener
         btn_plus.addEventListener("mousedown", () => {
         changeValues("up"); 
         holdIntervalPlus = setInterval(() => changeValues("up"), 100);
         });
         
+        //Decrement value button listener
         btn_minus.addEventListener("mousedown", () => {
             changeValues("down"); 
             holdIntervalMinus = setInterval(() => changeValues("down"), 100);
         });
         
+        //Event listeners for stopping incrementation or decrementation
         ["mouseup", "mouseleave"].forEach(eventType => {
             btn_plus.addEventListener(eventType, () => clearInterval(holdIntervalPlus));
             btn_minus.addEventListener(eventType, () => clearInterval(holdIntervalMinus));
@@ -421,7 +433,7 @@
         slider_2.nextElementSibling.textContent = 0;
         slider_3.nextElementSibling.textContent = 0;
 
-
+        //Using buttons for adding and removing colors from recent and favorites
         function attachButtonListeners(){
             document.querySelectorAll(".addFavBtn").forEach(btn => {
                 btn.addEventListener("click", () => {
@@ -449,11 +461,13 @@
              });
         }
 
+        //Saving color to local memory
         function saveToLocalStorage(){
             localStorage.setItem("favoriteColors", JSON.stringify(favoriteColors))
             localStorage.setItem("recentColors", JSON.stringify(recentColors))
         };
 
+        //Loading color from local memory
         function loadFromLocalStorage(){
             favoriteColors = JSON.parse(localStorage.getItem("favoriteColors")) || [];
             recentColors = JSON.parse(localStorage.getItem("recentColors")) || [];
@@ -462,7 +476,7 @@
         loadFromLocalStorage()
 
 
-
+        //Remove this unused function
         function addFavorite(){
             const currentHex = createHex()
             favoriteColors.push(currentHex);
@@ -470,6 +484,7 @@
             saveFavoritesToLocalStorage()
         };
 
+        //Adding the last color after waiting 3s
         function recentColorfunc(){
             setInterval(() =>{
             const currentHex = createHex()
@@ -479,8 +494,10 @@
                 saveToLocalStorage();
                 renderLists();
                  }
-            }, 2000);
+            }, 2000);//change to 3s
     }
+
+        //Rendering color with buttons in recent and favorite box
         function renderLists() {
             const recentList = document.getElementById("recent-list");
             const favList = document.getElementById("favorite-list");
@@ -517,7 +534,7 @@
             attachButtonListeners();
 }       
 
-
+        //Changing values of colors using buttons
         function changeValues(state) {
             const adjustment = 1
 
@@ -550,6 +567,7 @@
          
         };
 
+        //Copy to Clipboard functionality
         async function copytoClipboard(text, btn) {
             try{
                 await navigator.clipboard.writeText(text.textContent);
@@ -562,7 +580,7 @@
             }
         };
 
-
+        //Creating RGB code
         createRGB()
         function createRGB(){
             const R = rVal;
@@ -573,6 +591,7 @@
 
         };
 
+        //Creating HEX code
         createHex()
         function createHex(){
             const hexR = rVal.toString(16).padStart(2, '0');
@@ -586,7 +605,7 @@
         };
 
          
-
+        //Auxiliary function for updating values
         function updateSliderDisplay() {
             slider_1.nextElementSibling.textContent = rVal;
             slider_2.nextElementSibling.textContent = gVal;
@@ -594,6 +613,7 @@
         };
 
 
+        //Updating values of sliders
         function updateValues(e){
             activeSlider = e.target.id
             if (activeSlider === "r"){
@@ -612,6 +632,7 @@
             updateBox()
         };
 
+        //Reseting values of sliders to zero
         function resetColors(){
             rVal = 0
             gVal = 0
@@ -631,11 +652,14 @@
             updateBox()
         };
 
+        //Updating to current color
         function updateBox(){
             box.style.backgroundColor = `rgb(${rVal}, ${gVal}, ${bVal})`;
         };
         renderLists();
 
+
+        //Remove this part
         document.addEventListener("DOMContentLoaded", () => {
             loadFromLocalStorage();
             renderLists();
