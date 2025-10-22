@@ -281,7 +281,10 @@
           cursor: pointer;
           font-size: 16px;
         }
-
+        
+        .btn#clear-recent-btn{
+            margin-top: 1rem;
+        }
 
 
     </style>
@@ -307,6 +310,7 @@
                     <div id="recent-list" class="scroll-container">
                     </div>
                 </div>
+                <button class="btn" id="clear-recent-btn">Clear Recent</button>
             </div>
             
 
@@ -371,6 +375,7 @@
         // Waits for the page to fully load before rendering lists
         document.addEventListener("DOMContentLoaded", () => {
             renderLists();
+            recentColorfunc();
         });
 
         // --- ELEMENT SELECTION ---
@@ -385,6 +390,7 @@
         const copybtnHEX = document.querySelector("#copy-btn-hex")
         const favList = document.getElementById("favorite-list")
         const favSlider = document.getElementById("fav-slider");
+        const clearRecentBtn = document.getElementById("clear-recent-btn")
         
         // --- GLOBAL VARIABLES ---
         let activeSlider = null;
@@ -408,6 +414,13 @@
         //Copy buttons for RGB and HEX
         copybtnHEX.addEventListener("click", () => copytoClipboard(hexCode, copybtnHEX));
         copybtnRGB.addEventListener("click", () => copytoClipboard(rgbCode, copybtnRGB));
+
+        //Clear recent button
+        clearRecentBtn.addEventListener("click", ()=>{
+            recentColors = [];
+            localStorage.setItem("recentColors", JSON.stringify(recentColors));
+            renderLists();
+        });
 
 
         //Increment value button listener
