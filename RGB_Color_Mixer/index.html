@@ -452,7 +452,7 @@
                 btn.addEventListener("click", () => {
                     const color = btn.dataset.color;
                     if (!favoriteColors.includes(color)) {
-                        favoriteColors.push(color);
+                        favoriteColors.unshift(color);
                         saveToLocalStorage();
                         renderLists();
                  }
