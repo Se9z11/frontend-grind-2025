@@ -472,6 +472,17 @@
                     renderLists();
                  });
              });
+
+             document.querySelectorAll(".copyColorBtn").forEach(btn=>{
+                btn.addEventListener("click", () =>{
+                    const color = btn.dataset.color;
+                    navigator.clipboard.writeText(color);
+                    btn.textContent = "✅";
+                    setTimeout(() => {
+                        btn.textContent = "📋"
+                    }, 1000);
+                } )
+             })
         }
 
         //Saving color to local memory
@@ -515,6 +526,7 @@
                     <div class="hexLabel">${color}</div>
                     <div class="colorActions">
                         <button class="addFavBtn" data-color="${color}">❤️</button>
+                        <button class="copyColorBtn" data-color="${color}">📋</button>
                         <button class="removeBtn" data-color="${color}">❌</button>
                     </div>
                 `;
@@ -530,6 +542,7 @@
                     <div class="hexLabel">${color}</div>
                     <div class="colorActions">
                         <button class="removeBtn" data-color="${color}">❌</button>
+                        <button class="copyColorBtn" data-color="${color}">📋</button>
                     </div>
                 `;
                 favList.appendChild(colorItem);
