@@ -448,7 +448,8 @@
             btn_minus.addEventListener(eventType, () => clearInterval(holdIntervalMinus));
         });
         
-
+        // --- IMPORT FAVORITE COLORS ---
+        // Triggered when the user selects a file to import
         document.getElementById("importFavInput").addEventListener("change", (e)=>{
             const file = e.target.files[0];
             const reader = new FileReader();
@@ -467,6 +468,8 @@
             reader.readAsText(file)
         })
 
+        // --- EXPORT FAVORITE COLORS ---
+        // Triggered when the user clicks the Export button
         document.getElementById("exportFavBtn").addEventListener("click", ()=>{
             const blob = new Blob([JSON.stringify(favoriteColors)], {type:"application/json"});
             const link = document.createElement("a");
@@ -496,6 +499,7 @@
              });
          });
 
+         // Loop through all "remove" buttons and attach click event listeners
             document.querySelectorAll(".removeBtn").forEach(btn => {
                 btn.addEventListener("click", () => {
                     const color = btn.dataset.color;
@@ -510,6 +514,7 @@
                  });
              });
 
+             // Loop through all "copy color" buttons and attach click event listeners
              document.querySelectorAll(".copyColorBtn").forEach(btn=>{
                 btn.addEventListener("click", () =>{
                     const color = btn.dataset.color;
