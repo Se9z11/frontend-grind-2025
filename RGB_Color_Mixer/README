@@ -29,9 +29,11 @@ Milestone	Description	Status
 Base RGB controls	Sliders + buttons + color preview	✅ Done
 Copy-to-clipboard	Async clipboard API for RGB/HEX	✅ Done
 Hold-to-increment	Continuous value change on hold	✅ Done
-Palette feature	Add favorite colors section	🔜 Next
-Color history	Auto-track recent colors	⏳ Planned
-Responsive layout	Mobile-friendly interface	⏳ Planned
+Palette feature	Add favorite colors section	✅ Done
+Color history	Auto-track recent colors	✅ Done
+Add GSAP animations 🔜 Next
+Code refactor & file separation  Split HTML, CSS, and JS for cleaner structure  ⏳ Planned
+
 
 ## Progress Log
 ✅ Added RGB & HEX display
