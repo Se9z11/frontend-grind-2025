@@ -1,42 +1,40 @@
-## RGB Color Mixer
+### RGB Color Mixer ###
+An interactive RGB color controller built with HTML, CSS, JavaScript, and GSAP.
+Users can mix Red, Green, and Blue channels, preview the resulting color in real time,
+save their favorite colors, and copy RGB or HEX codes with a single click.
 
-Interactive RGB color controller built with HTML, CSS, and JavaScript.
-Users can mix Red, Green, and Blue channels, view the live color preview, and copy RGB or HEX codes.
+### Features ###
+- Adjust Red, Green, and Blue channels individually
+- Live color preview updates in real time
+- Copy RGB or HEX values to clipboard
+- Save colors to a Favorites Palette (stored in localStorage)
+- Automatically track recently used colors
+- Hold-to-increment for smooth slider control
+- Subtle GSAP animations for better user experience
+- Fully responsive layout for desktop, tablet, and mobile
 
-## Current Features
-🎚️ Adjust Red, Green, and Blue channels individually
-🎨 Live color preview updates in real time
-🔄 Reset all values to default (0, 0, 0)
-➕➖ Increment / Decrement color values using buttons
-📋 Copy to clipboard functionality for RGB and HEX codes
-
-## Upcoming Features
-🖱️ Hold-to-Increment — hold the plus/minus button to change values continuously
-💾 Add to Palette — save selected colors to a custom color palette
-🕒 Color History — automatically track recently used colors
-🎨 Integrated Color Picker — select colors visually from a gradient field
-🌈 HSL Code Display — show color in HSL format alongside RGB and HEX
-📱 Responsive Design — optimize layout for mobile and tablet screens
-
-## Technical Goals
-Use clean modular JavaScript (no frameworks)
-Keep functions reusable and maintainable
-Apply DRY (Don’t Repeat Yourself) principle in code refactoring
-Store data (palette + history) using localStorage
-
-## Project Roadmap
-Milestone	Description	Status
-Base RGB controls	Sliders + buttons + color preview	✅ Done
-Copy-to-clipboard	Async clipboard API for RGB/HEX	✅ Done
-Hold-to-increment	Continuous value change on hold	✅ Done
-Palette feature	Add favorite colors section	✅ Done
-Color history	Auto-track recent colors	✅ Done
-Add GSAP animations 🔜 Next
-Code refactor & file separation  Split HTML, CSS, and JS for cleaner structure  ⏳ Planned
+### Technical Overview ###
+- Modular JavaScript structure (no frameworks)
+- GSAP used for animation of color items and header transitions
+- DRY principle applied across rendering and event handling functions
+- LocalStorage used for persisting user data (favorites + history)
+- Split project files for maintainability:
+    /index.html  
+    /css/style.css  
+    /js/script.js  
+    /assets/screenshots/
 
 
-## Progress Log
-✅ Added RGB & HEX display
-✅ Implemented copy-to-clipboard functionality
-✅ Add hold-to-increment functionality for smoother control
-✅ Added palette and color history
+### Built With ###
+- HTML5
+- CSS3
+- Vanilla JavaScript (ES6)
+- GSAP 3
+
+### Progress Log ###
+- Base RGB controls (sliders + preview)
+- Copy-to-clipboard (RGB & HEX)
+- Hold-to-increment
+- Favorites + Color History
+- GSAP animations
+- Responsive layout
