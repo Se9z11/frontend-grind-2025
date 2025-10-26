@@ -378,12 +378,19 @@
 
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="app.js"></script>
     <script>
         // Waits for the page to fully load before rendering lists
         document.addEventListener("DOMContentLoaded", () => {
             renderLists();
             recentColorfunc();
         });
+
+
+         //----Animations----
+        gsap.from("h1",{y:-10, duration: 1, ease:"power2.out"})
+        gsap.to("h1",{y:25, duration: 1, ease:"power2.out"});
 
         // --- ELEMENT SELECTION ---
         const box = document.getElementById("box");
@@ -589,7 +596,17 @@
                 `;
                 favList.appendChild(colorItem);
             });
-        
+            
+            const items = gsap.utils.toArray(".colorItem");
+            gsap.from(items, {
+            opacity: 0,
+            scale: 0.5,
+            y: -20,
+            duration: 0.5,
+            stagger: 0.1,
+            ease: "back.out(1.7)"
+            });
+
             attachButtonListeners();
 }       
 
