@@ -38,3 +38,20 @@ save their favorite colors, and copy RGB or HEX codes with a single click.
 - Favorites + Color History
 - GSAP animations
 - Responsive layout
+
+### What I Learned ###
+- Refreshed HTML & CSS fundamentals
+- Improved understanding of DOM manipulation
+- Learned querySelector, event listeners, and forEach for interactive logic
+- Implemented “Hold to Increment” using setTimeout and setInterval
+- Used copyToClipboard API and learned how async clipboard works
+- Practiced modular JS with import/export
+- Integrated localStorage for saving palette and color history 
+(70% understood — plan to rebuild manually later for deeper learning)
+- Added GSAP animations for transitions and visual feedback
+- Improved code structure with separated files (HTML, CSS, JS)
+- Learned importance of refactoring and DRY code
+
+
+### 🔗 Live Preview
+[View Project on Netlify](https://68ff5001f1dbed14fdd7cd39--rgbcolormixer.netlify.app/)
